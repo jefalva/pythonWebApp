@@ -3,6 +3,7 @@
 import cgi
 import cgitb
 import sqlite3
+import re
 cgitb.enable() #(display=0, logdir="/path/to/logdir")
 #enable debugging - END
 #HTTP Headers - BEGIN
@@ -14,20 +15,33 @@ print()
 
 #v is for "validation is okay"
 v = "false"
+
+#regex that tests if alphanumeric & underscore & 1 to 10 chars
+regex = re.compile("^[a-zA-Z0-9_]{1,10}$")
+
 #data = entries from pervious form
 data = cgi.FieldStorage()
 #IS THERE EVEN ANY INPUT FROM param.cgi!? DAMNIT WHY THEY LEAVE IT BLANK...
 if "username" not in data or "password" not in data:
 	print("Username or password cannot be blank. Please try again.")
 	print("<a href=\"/index.html\">Return to login page</a>")
-#GOOD. THANCC YOU.
 else:
-	v = "true"
+	#GOOD. THANCC YOU. Let's assign these variables:
+	username = data['username'].value
+	password = data['password'].value
+	#YES. IT FITS THE REGEX
+	if regex.match(username):
+		v = "true"
+	#IS THIS INPUT FOLLOWING MY RULEZ!? WHY U NO FOLLOW?
+	else:
+		print("Usernames can only be 1-10 letters, numbers and underscores.")
+		print(" Please try again.")
+		print("<a href=\"/index.html\">Return to login page</a>")
+
+
 
 #v = true means validation OK
 if v == "true":
-	username = data['username'].value
-	password = data['password'].value
 	conn = sqlite3.connect('/home/server/sqlite3/banker')
 	c = conn.cursor()
 	#initializing userq and passq
