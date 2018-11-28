@@ -17,5 +17,5 @@ password_change.html
 
 home/server/sqlite3 (chmod 775)
 ----------------------------
-banker (chmod 661) (chown www-data)
+banker (chmod 664) (chown www-data)
 
