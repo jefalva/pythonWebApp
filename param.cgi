@@ -38,8 +38,6 @@ else:
 		print(" Please try again.")
 		print("<a href=\"/index.html\">Return to login page</a>")
 
-
-
 #v = true means validation OK
 if v == "true":
 	conn = sqlite3.connect('/home/server/sqlite3/banker')
@@ -106,7 +104,6 @@ if v == "true":
 				print("</form>")
 				print("<p><a href=\"/index.html\">Return to login page</a>")
 
-
 			#if one of the ordinary "users"
 			if (username,password,type)==(userq,passq,"users"):
 				print("<h1>Test Bank</h1>")
@@ -116,6 +113,7 @@ if v == "true":
 				c = conn.cursor()
 				for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=\'' + userq + '\';'):
 					print("Your account balance is: " + str(row[2]))
+				print("<p><a href=\"/password_change.html\">Update your password here</a>")
 				print("<p><a href=\"/index.html\">Back to login page</a>")
 		
 		#IF USERNAME OR PASSWORD IS WRONG, THEN
