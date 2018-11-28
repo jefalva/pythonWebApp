@@ -64,53 +64,63 @@ if v == "true":
 			x = str(row[0])
 			passq = x
 		
-		#right now admin is still hard coded...we need to decide how we want to do admin account...
-		if (username,password)==("admin","admin"):
-			print("<h1>Test Bank</h1>")
-			print("Welcome <b>" + username + "! </b><br>")
-			print("<b>Accounts Summary</b> <br>")
-			print("<table style=\"width100%\">")
-			print("<th>Account Number</th>")
-			print("<th>Name</th>")
-			print("<th>Balance</th>")
-			conn = sqlite3.connect('/home/server/sqlite3/banker')
-			c = conn.cursor()
-			total = 0
-			for row in c.execute('SELECT * FROM accounts'):
-				print("<tr>")
-				print("<td>" + row[0] + "</td>")
-				print("<td>" + row[1] + "</td>")
-				print("<td>" + str(row[2]) + "</td>")
-				print("</tr>")
-				total = total + row[2]
-			print("</table>")
-			#SHOW ME DA MONEY!
-			print("<b>Total Balance: </b>" + str(total))
-			print("<br>")
-			print("<br>")
-			print("<br>")
-			print("<form id=\"updatingbal\" action=\"balance.cgi\" method=\"POST\">")
-			print("Customer's Account Number: <input type=\"text\" name=\"accountnum\"/><br>")
-			print("Customer's Name: <input type=\"text\" name=\"name\"/><br>")
-			print("Deposit an amount: <input type=\"number\" step=\"0.01\" name=\"enterdeposit\"/>")
-			print("<input type=\"submit\" name=\"balsubmit1\" value=\"Deposit Amount\"/>")
-			print("<br>")
-			print("Withdraw an amount: <input type=\"number\" step=\"0.01\" name=\"enterwithdraw\"/>")
-			print("<input type=\"submit\" name=\"balsubmit2\" value=\"Withdraw Amount\"/>")
-			print("</form>")
+		#IF USERNAME AND PASSWORD IS CORRECT, THEN
+		if (username,password)==(userq,passq):
+			#check the type of account
+			for row in c.execute('SELECT type FROM users WHERE users=\'' + userq + '\';'):
+				type = str(row[0])
+			
+			#if an "admin"
+			if (username,password,type)==(userq,passq,"admin"):
+				print("<h1>Test Bank</h1>")
+				print("Welcome <b>" + username + "! </b><br>")
+				print("<b>Accounts Summary</b> <br>")
+				print("<table style=\"width100%\">")
+				print("<th>Account Number</th>")
+				print("<th>Name</th>")
+				print("<th>Balance</th>")
+				conn = sqlite3.connect('/home/server/sqlite3/banker')
+				c = conn.cursor()
+				total = 0
+				for row in c.execute('SELECT * FROM accounts'):
+					print("<tr>")
+					print("<td>" + row[0] + "</td>")
+					print("<td>" + row[1] + "</td>")
+					print("<td>" + str(row[2]) + "</td>")
+					print("</tr>")
+					total = total + row[2]
+				print("</table>")
+				#SHOW ME DA MONEY!
+				print("<b>Total Balance: </b>" + str(total))
+				print("<br>")
+				print("<br>")
+				print("<br>")
+				print("<form id=\"updatingbal\" action=\"balance.cgi\" method=\"POST\">")
+				print("Customer's Account Number: <input type=\"text\" name=\"accountnum\"/><br>")
+				print("Customer's Name: <input type=\"text\" name=\"name\"/><br>")
+				print("Deposit an amount: <input type=\"number\" step=\"0.01\" name=\"enterdeposit\"/>")
+				print("<input type=\"submit\" name=\"balsubmit1\" value=\"Deposit Amount\"/>")
+				print("<br>")
+				print("Withdraw an amount: <input type=\"number\" step=\"0.01\" name=\"enterwithdraw\"/>")
+				print("<input type=\"submit\" name=\"balsubmit2\" value=\"Withdraw Amount\"/>")
+				print("</form>")
+				print("<p><a href=\"/index.html\">Return to login page</a>")
 
-		#if login is not admin account,
-		#if credentials match DB, user gets in
-		#they can view their balance
-		elif (username,password)==(userq,passq):
-			print("<h1>Test Bank</h1>")
-			print("Welcome <b>" + username + "! </b><br>")
-			print("<b>Account Summary</b> <br>")
-			conn = sqlite3.connect('/home/server/sqlite3/banker')
-			c = conn.cursor()
-			for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=\'' + userq + '\';'):
-				print("Your account balance is: " + str(row[2]))
-			conn.close()
+
+			#if one of the ordinary "users"
+			if (username,password,type)==(userq,passq,"users"):
+				print("<h1>Test Bank</h1>")
+				print("Welcome <b>" + username + "! </b><br>")
+				print("<b>Account Summary</b> <br>")
+				conn = sqlite3.connect('/home/server/sqlite3/banker')
+				c = conn.cursor()
+				for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=\'' + userq + '\';'):
+					print("Your account balance is: " + str(row[2]))
+				print("<p><a href=\"/index.html\">Back to login page</a>")
+		
+		#IF USERNAME OR PASSWORD IS WRONG, THEN
 		else:
 			print("Wrong username or password. Please try again.")
 			print("<a href=\"/index.html\">Return to login page</a>")
+
+conn.close()
