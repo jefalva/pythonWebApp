@@ -18,14 +18,11 @@ v = "false"
 
 data = cgi.FieldStorage()
 
-
-
 #input str len validation----not working right now
 if "accountnum" not in data or "name" not in data:
 	print("Error. Please try again.")
 else:
 	v = "true"
-
 
 #v = true means validation is OK
 if v == "true":
@@ -51,7 +48,9 @@ if v == "true":
 			print("<b>Account Number: </b>" + row[0] + "<br>")
 			print("<b>Customer Name: </b>" + row[1] + "<br>")
 			print("<b>Previous Balance: </b>" + str(row[2]) + "<br>")
-		c.execute('UPDATE accounts SET balance = balance + ' + addmoney + ' WHERE accountnum=\'' + accountnum + '\' AND name=\''+ name + '\';')
+		#working non-secure problem code
+		#c.execute('UPDATE accounts SET balance = balance + ' + addmoney + ' WHERE accountnum=\'' + accountnum + '\' AND name=\''+ name + '\';')
+		c.execute('UPDATE accounts SET balance = balance + ? WHERE accountnum=? AND name=?', (addmoney,accountnum,name))
 		conn.commit()
 		for row in c.execute('SELECT * FROM accounts WHERE accountnum=(?) AND name=(?)', (accountnum,name)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
@@ -63,7 +62,9 @@ if v == "true":
 			print("<b>Account Number: </b>" + row[0] + "<br>")
 			print("<b>Customer Name: </b>" + row[1] + "<br>")
 			print("<b>Previous Balance: </b>" + str(row[2]) + "<br>")
-		c.execute('UPDATE accounts SET balance = balance - ' + submoney + ' WHERE accountnum=\'' + accountnum + '\' AND name=\''+ name + '\';')
+		#working non-secure problem code
+		#c.execute('UPDATE accounts SET balance = balance - ' + submoney + ' WHERE accountnum=\'' + accountnum + '\' AND name=\''+ name + '\';')
+		c.execute('UPDATE accounts SET balance = balance - ? WHERE accountnum=? AND name=?', (submoney,accountnum,name))
 		conn.commit()
 		for row in c.execute('SELECT * FROM accounts WHERE accountnum=(?) AND name=(?)', (accountnum,name)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
@@ -71,12 +72,7 @@ if v == "true":
 	else:
 		print("Cannot complete transaction. <br> Please try again. <br>")
 
-
-
-
-
 	conn.close()
-
 print("<a href=\"/index.html\">Back to login page</a>")
 
 
