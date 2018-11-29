@@ -47,25 +47,25 @@ if v == "true":
 	if "balsubmit1" in data and t == "true":
 		addmoney = data['enterdeposit'].value
 		print("You have updated the balance on this account. <br>")
-		for row in c.execute('SELECT * FROM accounts WHERE accountnum=(?) AND name=(?)', (accountnum,name)):
+		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name,)):
 			print("<b>Account Number: </b>" + row[0] + "<br>")
 			print("<b>Customer Name: </b>" + row[1] + "<br>")
 			print("<b>Previous Balance: </b>" + str(row[2]) + "<br>")
-		c.execute('UPDATE accounts SET balance = balance + (?) WHERE accountnum=(?) AND name=(?)', (addmoney,accountnum,name)):
+		c.execute('UPDATE accounts SET balance = balance + ? WHERE accountnum=? AND name=?', (addmoney,accountnum,name,)):
 		conn.commit()
-		for row in c.execute('SELECT * FROM accounts WHERE accountnum=(?) AND name=(?)', (accountnum,name)):
+		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name,)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
 	#withdraw money
 	elif "balsubmit2" in data and t == "true":
 		submoney = data['enterwithdraw'].value
 		print("You have updated the balance on this account. <br>")
-		for row in c.execute('SELECT * FROM accounts WHERE accountnum=(?) AND name=(?)', (accountnum,name)):
+		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name,)):
 			print("<b>Account Number: </b>" + row[0] + "<br>")
 			print("<b>Customer Name: </b>" + row[1] + "<br>")
 			print("<b>Previous Balance: </b>" + str(row[2]) + "<br>")
-		c.execute('UPDATE accounts SET balance = balance + (?) WHERE accountnum=(?) AND name=(?)', (submoney,accountnum,name)):
+		c.execute('UPDATE accounts SET balance = balance + ? WHERE accountnum=? AND name=?', (submoney,accountnum,name,)):
 		conn.commit()
-		for row in c.execute('SELECT * FROM accounts WHERE accountnum=(?) AND name=(?)', (accountnum,name)):
+		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name,)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
 
 	else:
