@@ -61,9 +61,9 @@ if v == "true":
 		#IS THE PASSWORD EVEN CORRECT!?
 		for row in c.execute('SELECT password FROM users WHERE users=?', (userq,)):
 			x = str(row[0])
-			#xhash = hashlib.md5(x.encode('utf-8')).hexdigest()
-			#passq = xhash
-			passq = x
+			xhash = hashlib.md5(x.encode('utf-8')).hexdigest()
+			passq = xhash
+			#passq = x
 		
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
 		if (username,password)==(userq,passq):
