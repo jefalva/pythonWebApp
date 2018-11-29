@@ -5,7 +5,7 @@ import cgitb
 import sqlite3
 import re
 import hashlib
-cgitb.enable() #(display=0, logdir="/path/to/logdir")
+cgitb.enable() (display=0, logdir="/home/server/logs")
 #enable debugging - END
 #HTTP Headers - BEGIN
 #set encoding to UTF-8
@@ -60,8 +60,8 @@ if v == "true":
 	else:
 		#IS THE PASSWORD EVEN CORRECT!?
 		for row in c.execute('SELECT password FROM users WHERE users=?', (userq,)):
-			passq = str(row[0])
-			passhash = hashlib.md5(password.encode('utf-8')).hexdigest()
+      passq = str(row[0])
+      passhash = hashlib.md5(password.encode('utf-8')).hexdigest()
 		#
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
 		if (username,passhash)==(userq,passq):
@@ -103,9 +103,12 @@ if v == "true":
 				print("Withdraw an amount: <input type=\"number\" step=\"0.01\" name=\"enterwithdraw\"/>")
 				print("<input type=\"submit\" name=\"balsubmit2\" value=\"Withdraw Amount\"/>")
 				print("</form>")
-				print("<p><a href=\"/index.html\">Return to login page</a>")
+        print("<p><a href=\"/index.html\">Return to login page</a>")
 
-			#if one of the ordinary "users"
+			with open (fpath, "a") as f:
+				f.write("Login DB#time:" + time + "#user:" + username + "\n")
+
+		#if one of the ordinary "users"
 			if (username,passhash,type)==(userq,passq,"users"):
 				print("<h1>Test Bank</h1>")
 				print("Welcome <b>" + username + "! </b><br>")
@@ -115,8 +118,11 @@ if v == "true":
 				for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=?', (userq,)):
 					print("Your account balance is: " + str(row[2]))
 				print("<p><a href=\"/password_change.html\">Update your password here</a>")
-				print("<p><a href=\"/index.html\">Back to login page</a>")
-		
+        print("<p><a href=\"/index.html\">Back to login page</a>")
+			
+      with open (fpath, "a") as f:
+				f.write("Login DB#time:" + time + "#user:" + username + "\n")
+    
 		#IF USERNAME OR PASSWORD IS WRONG, THEN
 		else:
 			print("Wrong username or password. Please try again.")
