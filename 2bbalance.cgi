@@ -3,10 +3,7 @@
 import cgi
 import cgitb
 import sqlite3
-import os
-import datetime
 cgitb.enable() #(display=0, logdir="/path/to/logdir")
-
 #enable debugging - END
 #HTTP Headers - BEGIN
 #set encoding to UTF-8
@@ -33,8 +30,6 @@ if v == "true":
 	accountnum = data['accountnum'].value
 	conn = sqlite3.connect('/home/server/sqlite3/banker')
 	c = conn.cursor()
-	fpath = os.path.join("/home/server/python3", "log.txt") # path to log file
-	time = str(datetime.datetime.now())
 	#checking DB for t
 	#t = true when there is a match
 	for row in c.execute('SELECT * FROM accounts;'):
@@ -59,8 +54,6 @@ if v == "true":
 		conn.commit()
 		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
-		with open (fpath, "a") as f:
-			f.write("Update DB deposit#time:" + time + "#user:" + name + "\n")
 	#withdraw money
 	elif "balsubmit2" in data and t == "true":
 		submoney = data['enterwithdraw'].value
@@ -75,8 +68,6 @@ if v == "true":
 		conn.commit()
 		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
-		with open (fpath, "a") as f:
-			f.write("Update DB withdrawal#time:" + time + "#user:" + name + "\n")
 
 	else:
 		print("Cannot complete transaction. <br> Please try again. <br>")

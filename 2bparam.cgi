@@ -3,8 +3,6 @@
 import cgi
 import cgitb
 import sqlite3
-import os
-import datetime
 import re
 cgitb.enable() #(display=0, logdir="/path/to/logdir")
 #enable debugging - END
@@ -44,8 +42,6 @@ else:
 if v == "true":
 	conn = sqlite3.connect('/home/server/sqlite3/banker')
 	c = conn.cursor()
-	time = str(datetime.datetime.now())
-	fpath = os.path.join("/home/server/python3", "log.txt") #path to log file
 	#initializing userq and passq
 	userq = "false"
 	passq = "false"
@@ -65,7 +61,7 @@ if v == "true":
 		for row in c.execute('SELECT password FROM users WHERE users=?', (userq,)):
 			x = str(row[0])
 			passq = x
-
+		
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
 		if (username,password)==(userq,passq):
 			#check the type of account
@@ -107,10 +103,7 @@ if v == "true":
 				print("<input type=\"submit\" name=\"balsubmit2\" value=\"Withdraw Amount\"/>")
 				print("</form>")
 				print("<p><a href=\"/index.html\">Return to login page</a>")
-				with open(fpath, "a") as f:
-					f.write("Login DB#time:" + time + "#user:" + username + "\n")
 
-				
 			#if one of the ordinary "users"
 			if (username,password,type)==(userq,passq,"users"):
 				print("<h1>Test Bank</h1>")
@@ -122,9 +115,7 @@ if v == "true":
 					print("Your account balance is: " + str(row[2]))
 				print("<p><a href=\"/password_change.html\">Update your password here</a>")
 				print("<p><a href=\"/index.html\">Back to login page</a>")
-				with open(fpath, "a") as f:
-					f.write("Login DB#time:" + time + "#user:" + username + "\n")
-
+		
 		#IF USERNAME OR PASSWORD IS WRONG, THEN
 		else:
 			print("Wrong username or password. Please try again.")
