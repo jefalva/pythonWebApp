@@ -49,7 +49,7 @@ if v == "true":
 	for row in c.execute('SELECT * FROM users;'):
 		x = str(row[0])
 		if x == username:
-			userq = ('username',)
+			userq = username
 	row = ""
 	#NO! USERNAME IS NOT IN DATABASE!
 	if userq == "false":
@@ -58,14 +58,14 @@ if v == "true":
 	#YES! USERNAME IS HERE!
 	else:
 		#IS THE PASSWORD EVEN CORRECT!?
-		for row in c.execute('SELECT password FROM users WHERE users=?', userq):
+		for row in c.execute('SELECT password FROM users WHERE users=?', (userq,)):
 			x = str(row[0])
 			passq = x
 		
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
 		if (username,password)==(userq,passq):
 			#check the type of account
-			for row in c.execute('SELECT type FROM users WHERE users=?', userq):
+			for row in c.execute('SELECT type FROM users WHERE users=?', (userq,)):
 				type = str(row[0])
 			
 			#if an "admin"
@@ -111,7 +111,7 @@ if v == "true":
 				print("<b>Account Summary</b> <br>")
 				conn = sqlite3.connect('/home/server/sqlite3/banker')
 				c = conn.cursor()
-				for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=?', userq):
+				for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=?', (userq,)):
 					print("Your account balance is: " + str(row[2]))
 				print("<p><a href=\"/password_change.html\">Update your password here</a>")
 				print("<p><a href=\"/index.html\">Back to login page</a>")
