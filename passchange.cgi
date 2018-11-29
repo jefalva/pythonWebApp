@@ -18,8 +18,6 @@ v = "false"
 
 data = cgi.FieldStorage()
 
-
-
 #input str len validation----not working right now
 if "name" not in data or "passconfirm" not in data:
 	print("Error. Please try again.")
@@ -46,25 +44,22 @@ if v == "true":
 
 	#withdraw money
 	if "passconfirm" in data and t == "true":
-		print("You have updated the balance on this account. <br>")
+		#print("You have updated the password on this account. <br>")
 		for row in c.execute('SELECT * FROM users WHERE users=(?) AND password=(?)', (user,passold)):
 			print("<b>Username: </b>" + row[0] + "<br>")
-			print("<b>Old Password: </b>" + row[1] + "<br>")
-			print("<b>New Password: </b>" + passchange + "<br>")
-		c.execute('UPDATE users SET password =\'' + passchange + '\' WHERE users=\'' + user + '\' AND password=\'' + passold + '\';')
+			#print("<b>Old Password: </b>" + row[1] + "<br>")
+			#print("<b>New Password: </b>" + passchange + "<br>")
+		#Unsecure, concatenated SQL problem code
+		#c.execute('UPDATE users SET password =\'' + passchange + '\' WHERE users=\'' + user + '\' AND password=\'' + passold + '\';')
+		c.execute('UPDATE users SET password=? WHERE users=? AND password=?', (passchange,user,passold))
 		conn.commit()
+		#used code below to check if working...
 		for row in c.execute('SELECT * FROM users WHERE users=(?) AND password=(?)', (user,passchange)):
 			print("<b>New Password: </b>" + str(row[1]) + "<br>")
 
 	else:
 		print("Cannot complete task. <br> Please try again. <br>")
 
-
-
-
-
 	conn.close()
 
 print("<a href=\"/index.html\">Back to login page</a>")
-
-
