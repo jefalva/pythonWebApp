@@ -3,6 +3,8 @@
 import cgi
 import cgitb
 import sqlite3
+import os
+import datetime
 cgitb.enable() #(display=0, logdir="/path/to/logdir")
 #enable debugging - END
 #HTTP Headers - BEGIN
@@ -30,6 +32,8 @@ if v == "true":
 	password = data['password'].value
 	conn = sqlite3.connect('/home/server/sqlite3/banker')
 	c = conn.cursor()
+	time = str(datetime.datetime.now())
+	fpath = os.path.join("/home/server/python3", "log.txt") #path to log file
 	#initializing userq and passq
 	userq = "false"
 	passq = "false"
@@ -84,6 +88,8 @@ if v == "true":
 			print("Withdraw an amount: <input type=\"number\" step=\"0.01\" name=\"enterwithdraw\"/>")
 			print("<input type=\"submit\" name=\"balsubmit2\" value=\"Withdraw Amount\"/>")
 			print("</form>")
+			with open (fpath, "a") as f:
+				f.write("Login DB#time:" + time + "#user:" + username)
 
 		#if login is not admin account,
 		#if credentials match DB, user gets in
@@ -97,6 +103,8 @@ if v == "true":
 			for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=\'' + userq + '\';'):
 				print("Your account balance is: " + str(row[2]))
 			conn.close()
+			with open (fpath, "a") as f:
+				f.write("Login DB#time:" + time + "#user:" + username)
 		else:
 			print("Wrong username or password. Please try again.")
 			print("<a href=\"/index.html\">Return to login page</a>")
