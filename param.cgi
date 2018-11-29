@@ -49,7 +49,7 @@ if v == "true":
 	for row in c.execute('SELECT * FROM users;'):
 		x = str(row[0])
 		if x == username:
-			userq = (''username'',)
+			userq = ('username',)
 	row = ""
 	#NO! USERNAME IS NOT IN DATABASE!
 	if userq == "false":
