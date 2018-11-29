@@ -58,14 +58,14 @@ if v == "true":
 	#YES! USERNAME IS HERE!
 	else:
 		#IS THE PASSWORD EVEN CORRECT!?
-		for row in c.execute('SELECT password FROM users WHERE users=?', (userq)):
+		for row in c.execute('SELECT password FROM users WHERE users=(?)', (userq)):
 			x = str(row[0])
 			passq = x
 		
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
 		if (username,password)==(userq,passq):
 			#check the type of account
-			for row in c.execute('SELECT type FROM users WHERE users=?', (userq)):
+			for row in c.execute('SELECT type FROM users WHERE users=(?)', (userq)):
 				type = str(row[0])
 			
 			#if an "admin"
