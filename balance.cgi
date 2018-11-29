@@ -5,8 +5,7 @@ import cgitb
 import sqlite3
 import os
 import datetime
-cgitb.enable() #(display=0, logdir="/path/to/logdir")
-
+cgitb.enable() (display=0, logdir="/home/server/logs")
 #enable debugging - END
 #HTTP Headers - BEGIN
 #set encoding to UTF-8
