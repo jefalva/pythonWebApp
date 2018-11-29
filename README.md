@@ -19,3 +19,7 @@ home/server/sqlite3 (chmod 775)
 ----------------------------
 banker (chmod 664) (chown www-data)
 
+/home/server/python3
+-------------------------
+log.txt (chmod 756)
+verif.txt (chmod 756)
