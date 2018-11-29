@@ -57,9 +57,10 @@ if v == "true":
 		#c.execute('UPDATE users SET password =\'' + passchange + '\' WHERE users=\'' + user + '\' AND password=\'' + passold + '\';')
 		c.execute('UPDATE users SET password=? WHERE users=? AND password=?', (passchangehash,user,passoldhash))
 		conn.commit()
+		print("You have successfully updated your password.")
 		#used code below to check if working...
-		for row in c.execute('SELECT * FROM users WHERE users=(?) AND password=(?)', (user,passchangehash)):
-			print("<b>New Password: </b>" + str(row[1]) + "<br>")
+		#for row in c.execute('SELECT * FROM users WHERE users=(?) AND password=(?)', (user,passchangehash)):
+			#print("<b>New Password: </b>" + str(row[1]) + "<br>")
 
 	else:
 		print("Cannot complete task. <br> Please try again. <br>")
