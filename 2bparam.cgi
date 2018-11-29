@@ -4,6 +4,7 @@ import cgi
 import cgitb
 import sqlite3
 import re
+import hashlib
 cgitb.enable() #(display=0, logdir="/path/to/logdir")
 #enable debugging - END
 #HTTP Headers - BEGIN
@@ -59,17 +60,17 @@ if v == "true":
 	else:
 		#IS THE PASSWORD EVEN CORRECT!?
 		for row in c.execute('SELECT password FROM users WHERE users=?', (userq,)):
-			x = str(row[0])
-			passq = x
-		
+			passq = str(row[0])
+			passhash = hashlib.md5(password.encode('utf-8')).hexdigest()
+		#
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
-		if (username,password)==(userq,passq):
+		if (username,passhash)==(userq,passq):
 			#check the type of account
 			for row in c.execute('SELECT type FROM users WHERE users=?', (userq,)):
 				type = str(row[0])
 			
 			#if an "admin"
-			if (username,password,type)==(userq,passq,"admin"):
+			if (username,passhash,type)==(userq,passq,"admin"):
 				print("<h1>Test Bank</h1>")
 				print("Welcome <b>" + username + "! </b><br>")
 				print("<b>Accounts Summary</b> <br>")
@@ -105,7 +106,7 @@ if v == "true":
 				print("<p><a href=\"/index.html\">Return to login page</a>")
 
 			#if one of the ordinary "users"
-			if (username,password,type)==(userq,passq,"users"):
+			if (username,passhash,type)==(userq,passq,"users"):
 				print("<h1>Test Bank</h1>")
 				print("Welcome <b>" + username + "! </b><br>")
 				print("<b>Account Summary</b> <br>")
