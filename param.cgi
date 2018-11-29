@@ -101,7 +101,7 @@ if v == "true":
 			print("<input type=\"submit\" name=\"balsubmit2\" value=\"Withdraw Amount\"/>")
 			print("</form>")
 			with open (fpath, "a") as f:
-				f.write("Login DB#time:" + time + "#user:" + username)
+				f.write("Login DB#time:" + time + "#user:" + username + "\n")
 
 		#if login is not admin account,
 		#if credentials match DB, user gets in
@@ -116,7 +116,7 @@ if v == "true":
 				print("Your account balance is: " + str(row[2]))
 			conn.close()
 			with open (fpath, "a") as f:
-				f.write("Login DB#time:" + time + "#user:" + username)
+				f.write("Login DB#time:" + time + "#user:" + username + "\n")
 
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
 		if (username,password)==(userq,passq):

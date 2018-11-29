@@ -61,7 +61,7 @@ if v == "true":
 		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
 		with open (fpath, "a") as f:
-			f.write("Update DB deposit#time:" + time + "#user:" + name)
+			f.write("Update DB deposit#time:" + time + "#user:" + name + "\n")
 	#withdraw money
 	elif "balsubmit2" in data and t == "true" and event == "1":
 		submoney = data['enterwithdraw'].value
@@ -77,7 +77,7 @@ if v == "true":
 		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
 		with open (fpath, "a") as f:
-			f.write("Update DB withdrawal#time:" + time + "#user:" + name)
+			f.write("Update DB withdrawal#time:" + time + "#user:" + name + "\n")
 
 	else:
 		print("Cannot complete transaction. <br> Please try again. <br>")
