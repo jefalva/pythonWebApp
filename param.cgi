@@ -93,7 +93,7 @@ if v == "true":
 				print("<br>")
 				print("<br>")
 				print("<br>")
-				print("<form id=\"updatingbal\" action=\"balance.cgi\" method=\"POST\">")
+				print("<form id=\"updatingbal\" action=\"balance.cgi\" method=\"POST\" AUTOCOMPLETE='OFF'>")
 				print("Customer's Account Number: <input type=\"text\" name=\"accountnum\"/><br>")
 				print("Customer's Name: <input type=\"text\" name=\"name\"/><br>")
 				print("Deposit an amount: <input type=\"number\" step=\"0.01\" name=\"enterdeposit\"/>")
