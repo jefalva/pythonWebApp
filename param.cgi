@@ -64,17 +64,17 @@ if v == "true":
 	else:
 		#IS THE PASSWORD EVEN CORRECT!?
 		for row in c.execute('SELECT password FROM users WHERE users=?', (userq,)):
-      passq = str(row[0])
-      passhash = hashlib.md5(password.encode('utf-8')).hexdigest()
+      			passq = str(row[0])
+      			passhash = hashlib.md5(password.encode('utf-8')).hexdigest()
 		#
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
-		if (username,password)==(userq,passq):
+		if (username,passhash)==(userq,passq):
 			#check the type of account
 			for row in c.execute('SELECT type FROM users WHERE users=?', (userq,)):
 				type = str(row[0])
 			
 			#if an "admin"
-			if (username,password,type)==(userq,passq,"admin"):
+			if (username,passhash,type)==(userq,passq,"admin"):
 				print("<h1>Test Bank</h1>")
 				print("Welcome <b>" + username + "! </b><br>")
 				print("<b>Accounts Summary</b> <br>")
