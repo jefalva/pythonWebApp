@@ -107,21 +107,15 @@ if v == "true":
 				print("Withdraw an amount: <input type=\"number\" step=\"0.01\" name=\"enterwithdraw\"/>")
 				print("<input type=\"submit\" name=\"balsubmit2\" value=\"Withdraw Amount\"/>")
 				print("</form>")
- master
+ 
 				print("<p><a href=\"/index.html\">Return to login page</a>")
 				with open(fpath, "a") as f:
 					f.write("Login DB#time:" + time + "#user:" + username + "\n")
 
 				
-			#if one of the ordinary "users"
-
-        print("<p><a href=\"/index.html\">Return to login page</a>")
-
-			with open (fpath, "a") as f:
-				f.write("Login DB#time:" + time + "#user:" + username + "\n")
-
+			
 		#if one of the ordinary "users"
- master
+
 			if (username,passhash,type)==(userq,passq,"users"):
 				print("<h1>Test Bank</h1>")
 				print("Welcome <b>" + username + "! </b><br>")
@@ -131,18 +125,18 @@ if v == "true":
 				for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=?', (userq,)):
 					print("Your account balance is: " + str(row[2]))
 				print("<p><a href=\"/password_change.html\">Update your password here</a>")
- master
+ 
 				print("<p><a href=\"/index.html\">Back to login page</a>")
 				with open(fpath, "a") as f:
 					f.write("Login DB#time:" + time + "#user:" + username + "\n")
 
 
-        print("<p><a href=\"/index.html\">Back to login page</a>")
+        			print("<p><a href=\"/index.html\">Back to login page</a>")
 			
-      with open (fpath, "a") as f:
+      			with open (fpath, "a") as f:
 				f.write("Login DB#time:" + time + "#user:" + username + "\n")
     
- master
+ 
 		#IF USERNAME OR PASSWORD IS WRONG, THEN
 		else:
 			print("Wrong username or password. Please try again.")
