@@ -3,6 +3,8 @@
 import cgi
 import cgitb
 import sqlite3
+import os
+import datetime
 import re
 import hashlib
 cgitb.enable() (display=0, logdir="/home/server/logs")
@@ -43,6 +45,8 @@ else:
 if v == "true":
 	conn = sqlite3.connect('/home/server/sqlite3/banker')
 	c = conn.cursor()
+	time = str(datetime.datetime.now())
+	fpath = os.path.join("/home/server/python3", "log.txt") #path to log file
 	#initializing userq and passq
 	userq = "false"
 	passq = "false"
@@ -64,13 +68,13 @@ if v == "true":
       passhash = hashlib.md5(password.encode('utf-8')).hexdigest()
 		#
 		#IF USERNAME AND PASSWORD IS CORRECT, THEN
-		if (username,passhash)==(userq,passq):
+		if (username,password)==(userq,passq):
 			#check the type of account
 			for row in c.execute('SELECT type FROM users WHERE users=?', (userq,)):
 				type = str(row[0])
 			
 			#if an "admin"
-			if (username,passhash,type)==(userq,passq,"admin"):
+			if (username,password,type)==(userq,passq,"admin"):
 				print("<h1>Test Bank</h1>")
 				print("Welcome <b>" + username + "! </b><br>")
 				print("<b>Accounts Summary</b> <br>")
@@ -103,12 +107,21 @@ if v == "true":
 				print("Withdraw an amount: <input type=\"number\" step=\"0.01\" name=\"enterwithdraw\"/>")
 				print("<input type=\"submit\" name=\"balsubmit2\" value=\"Withdraw Amount\"/>")
 				print("</form>")
+ master
+				print("<p><a href=\"/index.html\">Return to login page</a>")
+				with open(fpath, "a") as f:
+					f.write("Login DB#time:" + time + "#user:" + username + "\n")
+
+				
+			#if one of the ordinary "users"
+
         print("<p><a href=\"/index.html\">Return to login page</a>")
 
 			with open (fpath, "a") as f:
 				f.write("Login DB#time:" + time + "#user:" + username + "\n")
 
 		#if one of the ordinary "users"
+ master
 			if (username,passhash,type)==(userq,passq,"users"):
 				print("<h1>Test Bank</h1>")
 				print("Welcome <b>" + username + "! </b><br>")
@@ -118,11 +131,18 @@ if v == "true":
 				for row in c.execute('SELECT * FROM accounts INNER JOIN users ON users.accountnum = accounts.accountnum WHERE users=?', (userq,)):
 					print("Your account balance is: " + str(row[2]))
 				print("<p><a href=\"/password_change.html\">Update your password here</a>")
+ master
+				print("<p><a href=\"/index.html\">Back to login page</a>")
+				with open(fpath, "a") as f:
+					f.write("Login DB#time:" + time + "#user:" + username + "\n")
+
+
         print("<p><a href=\"/index.html\">Back to login page</a>")
 			
       with open (fpath, "a") as f:
 				f.write("Login DB#time:" + time + "#user:" + username + "\n")
     
+ master
 		#IF USERNAME OR PASSWORD IS WRONG, THEN
 		else:
 			print("Wrong username or password. Please try again.")
