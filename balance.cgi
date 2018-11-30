@@ -3,8 +3,11 @@
 import cgi
 import cgitb
 import sqlite3
+ master
 import os
 import datetime
+
+ master
 cgitb.enable() (display=0, logdir="/home/server/logs")
 #enable debugging - END
 #HTTP Headers - BEGIN
@@ -58,8 +61,15 @@ if v == "true":
 		conn.commit()
 		for row in c.execute('SELECT * FROM accounts WHERE accountnum=? AND name=?', (accountnum,name)):
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
+ master
 		with open (fpath, "a") as f:
 			f.write("Update DB deposit#time:" + time + "#user:" + name + "\n")
+
+
+		with open (fpath, "a") as f:
+			f.write("Update DB deposit#time:" + time + "#user:" + name + "\n")
+
+ master
 	#withdraw money
 	elif "balsubmit2" in data and t == "true":
 		submoney = data['enterwithdraw'].value
@@ -76,6 +86,10 @@ if v == "true":
 			print("<b>New Balance: </b>" + str(row[2]) + "<br>")
 		with open (fpath, "a") as f:
 			f.write("Update DB withdrawal#time:" + time + "#user:" + name + "\n")
+
+		with open (fpath, "a") as f:
+			f.write("Update DB withdrawal#time:" + time + "#user:" + name + "\n")
+
 
 	else:
 		print("Cannot complete transaction. <br> Please try again. <br>")
